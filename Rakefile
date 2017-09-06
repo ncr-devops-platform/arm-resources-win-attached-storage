@@ -9,7 +9,13 @@ namespace :release do
   Rake::PackageTask.new(package_name, 'edge') do |p|
     p.need_zip = true
     p.package_files.include('./*')
-    p.package_files.exclude('./pkg')
+    p.package_files.exclude %w(
+      ./pkg
+      ./Rakefile
+      ./AttachStorage.gemspec
+      ./AttachStorage.zip
+      ./.gitignore
+    )
   end
 
   task :bump do
@@ -36,5 +42,5 @@ namespace :release do
   end
 
   desc 'releases this package'
-  task all: [:bump, :promote_package, :push]
+  task all: [:bump, :promote_package, :clobber, :push]
 end
