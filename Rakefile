@@ -47,7 +47,6 @@ namespace :release do
   task promote_package: [:package] do
     require 'fileutils'
     version = Bump::Bump.current
-    FileUtils.cp "./pkg/#{package_name}-edge.zip", "./#{package_name}.zip"
     sh <<-COMMIT
       git add ./#{package_name}.zip
       git commit -m "updating the #{package_name}.zip artifact to version #{version}"
@@ -55,5 +54,5 @@ namespace :release do
   end
 
   desc 'releases this package'
-  task all: [:bump, :promote_package, :clobber, :push]
+  task all: [:bump, :promote_package, :push]
 end
