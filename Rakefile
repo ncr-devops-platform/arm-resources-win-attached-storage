@@ -6,16 +6,29 @@ require 'bump'
 package_name = 'AttachStorage'
 
 namespace :release do
-  Rake::PackageTask.new(package_name, 'edge') do |p|
-    p.need_zip = true
-    p.package_files.include('./*')
-    p.package_files.exclude %w(
-      ./pkg
-      ./Rakefile
-      ./AttachStorage.gemspec
-      ./AttachStorage.zip
-      ./.gitignore
-    )
+  # Rake::PackageTask.new(package_name, :noversion) do |p|
+  #   p.need_zip = true
+  #   p.package_files.include('./*')
+  #   p.package_files.exclude %w(
+  #     ./pkg
+  #     ./Rakefile
+  #     ./AttachStorage.gemspec
+  #     ./AttachStorage.zip
+  #     ./.gitignore
+  #   )
+  # end
+
+  task :package do
+    require 'zip'
+    zipfile_path = './AttachStorage.zip'
+    FileUtils.rm zipfile_path if File.exist? zipfile_path
+    input_filenames = FileList['*'].exclude('Rakefile').exclude('*.gemspec')
+
+    Zip::File.open(zipfile_path, Zip::File::CREATE) do |zipfile|
+      input_filenames.each do |filename|
+        zipfile.add(filename, filename)
+      end
+    end
   end
 
   task :bump do
@@ -31,7 +44,7 @@ namespace :release do
     PUSH
   end
 
-  task promote_package: [:repackage] do
+  task promote_package: [:package] do
     require 'fileutils'
     version = Bump::Bump.current
     FileUtils.cp "./pkg/#{package_name}-edge.zip", "./#{package_name}.zip"
