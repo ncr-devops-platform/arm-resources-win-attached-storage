@@ -1,5 +1,7 @@
 Configuration AttachedDisk
 {
+  Import-DscResource -ModuleName xStorage
+
   Node "localhost"
   {
     xWaitforDisk Disk2
