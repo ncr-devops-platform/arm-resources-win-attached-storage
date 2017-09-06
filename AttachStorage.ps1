@@ -1,6 +1,6 @@
-configuration AttachedDisk
+Configuration AttachedDisk
 {
-  Node localhost
+  Node "localhost"
   {
     xWaitforDisk Disk2
     {
