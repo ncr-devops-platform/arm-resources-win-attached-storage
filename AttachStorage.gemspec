@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'AttachStorage'
-  s.version     = '0.1.4'
+  s.version     = '0.1.5'
   s.date        = '2017-08-01'
   s.summary     = "AttachStorage"
   s.description = "A powershell DSC packge for attaching storage drives to ARM vms"
