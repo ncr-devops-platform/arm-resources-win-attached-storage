@@ -6,23 +6,13 @@ require 'bump'
 package_name = 'AttachStorage'
 
 namespace :release do
-  # Rake::PackageTask.new(package_name, :noversion) do |p|
-  #   p.need_zip = true
-  #   p.package_files.include('./*')
-  #   p.package_files.exclude %w(
-  #     ./pkg
-  #     ./Rakefile
-  #     ./AttachStorage.gemspec
-  #     ./AttachStorage.zip
-  #     ./.gitignore
-  #   )
-  # end
-
   task :package do
     require 'zip'
     zipfile_path = './AttachStorage.zip'
     FileUtils.rm zipfile_path if File.exist? zipfile_path
-    input_filenames = FileList['*'].exclude('Rakefile').exclude('*.gemspec')
+    input_filenames = FileList['**/*'].exclude('Rakefile').exclude('*.gemspec').reject do |file|
+      File.directory?(file)
+    end
 
     Zip::File.open(zipfile_path, Zip::File::CREATE) do |zipfile|
       input_filenames.each do |filename|
