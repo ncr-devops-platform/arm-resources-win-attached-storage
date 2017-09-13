@@ -1,7 +1,6 @@
 Configuration AttachedDisk
 {
-  Set-ExecutionPolicy -ExecutionPolicy unrestricted -force
-  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine -force
   Import-DscResource -ModuleName xStorage
 
   Node "localhost"
