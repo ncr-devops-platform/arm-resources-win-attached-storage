@@ -1,6 +1,5 @@
 Configuration AttachedDisk
 {
-  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine -force
   Import-DscResource -ModuleName xStorage
 
   Node "localhost"
@@ -16,14 +15,6 @@ Configuration AttachedDisk
       DiskId = 2
       DriveLetter = "F"
       DependsOn = "[xWaitForDisk]Disk2"
-    }
-
-    Script EnableRestrictedExecutionPolicy
-    {
-      SetScript = { Set-ExecutionPolicy -ExecutionPolicy Restricted -force }
-      GetScript =  { Get-ExecutionPolicy }
-      TestScript = { (Get-ExecutionPolicy) -eq "Restricted" }
-      DependsOn = "[xDisk]ADDataDisk"
     }
   }
 }
