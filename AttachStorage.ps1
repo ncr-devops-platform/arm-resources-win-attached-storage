@@ -30,7 +30,7 @@ Configuration AttachedDisk
       SetScript = { Set-ExecutionPolicy -ExecutionPolicy Restricted -force }
       GetScript =  { Get-ExecutionPolicy }
       TestScript = { (Get-ExecutionPolicy) -eq "Restricted" }
-      DependsOn "[xDisk]ADDataDisk"
+      DependsOn = "[xDisk]ADDataDisk"
     }
   }
 }
