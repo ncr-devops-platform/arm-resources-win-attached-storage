@@ -1,28 +1,22 @@
 Configuration AttachedDisk
 {
+  Set-ExecutionPolicy -ExecutionPolicy unrestricted -force
+  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
   Import-DscResource -ModuleName xStorage
 
   Node "localhost"
   {
-    Script EnableUnrestrictedExecutionPolicy
-    {
-      SetScript = { Set-ExecutionPolicy -ExecutionPolicy unrestricted -force }
-      GetScript =  { Get-ExecutionPolicy }
-      TestScript = { (Get-ExecutionPolicy) -eq "Unrestricted" }
-    }
-
     xWaitforDisk Disk2
     {
       DiskId = 2
       RetryIntervalSec = 20
       RetryCount = 30
-      DependsOn = "[Script]EnableUnrestrictedExecutionPolicy"
     }
     
     xDisk ADDataDisk {
       DiskId = 2
       DriveLetter = "F"
-      DependsOn = @("[xWaitForDisk]Disk2", "[Script]EnableUnrestrictedExecutionPolicy")
+      DependsOn = "[xWaitForDisk]Disk2"
     }
 
     Script EnableRestrictedExecutionPolicy
